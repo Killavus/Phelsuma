@@ -1,25 +1,16 @@
 #ifndef __PHELSUMA_SHADER_H__
 #define __PHELSUMA_SHADER_H__
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 class Shader {
-  Shader(GLuint shaderId, GLenum shaderType);
-  Shader(Shader&& other);
-  Shader& operator=(Shader&& other);
-  ~Shader();
-  
-  Shader(const Shader& other) = delete;
-  Shader& operator=(Shader& other) = delete;
+public:
+  Shader(GLuint shaderId, GLuint shaderType) : shaderId(shaderId), shaderType(shaderType) {}
+  void destroy() const;
 
-  ~Shader();
-
-  inline GLenum type() const { return type; };
-  inline GLuint id() const { return id };
-  inline bool invalid() const { return id == -1 || type == -1; } 
-
-  private:
-
-  GLenum type;
-  GLuint id;
-}
+  GLuint id() const { return shaderId; }
+  GLenum type() const { return shaderType; }
+private:
+  GLuint shaderId;
+  GLenum shaderType;
+};
 #endif //__PHELSUMA_SHADER_H__

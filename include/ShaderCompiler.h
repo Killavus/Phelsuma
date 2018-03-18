@@ -2,20 +2,20 @@
 #define __PHELSUMA_SHADER_COMPILER_H__
 
 #include <variant>
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 #include "Shader.h"
 
 class ShaderCompiler {
-  ShaderCompiler(std::string sourceCode, GLenum shaderType);
+public:
+  ShaderCompiler(std::string sourceCode, GLenum shaderType) : sourceCode(sourceCode), shaderType(shaderType) {};
   std::variant<Shader, std::string> compile() const;
 
-  static ShaderCompiler fromFile(const char *path, GLenum shaderType);
+  static ShaderCompiler fromFile(const std::string& path, GLenum shaderType);
 
-  private:
+private:
 
   std::string sourceCode;
   GLenum shaderType;
-}
-
-#endif // __SHADER_COMPILER_H__
+};
+#endif // __PHELSUMA_SHADER_COMPILER_H__

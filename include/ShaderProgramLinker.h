@@ -1,19 +1,22 @@
 #ifndef __PHELSUMA_SHADER_PROGRAM_LINKER_H__
 #define __PHELSUMA_SHADER_PROGRAM_LINKER_H__
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 #include <variant>
+#include <vector>
+#include <algorithm>
 
-#include "ShaderProgram.h"
+class ShaderProgram;
+class Shader;
 
 class ShaderProgramLinker {
-  bool attachShader(Shader&& shader);
+public:
+  bool attachShader(const Shader& shader);
   bool detachShader(GLenum shaderType);
 
   std::variant<ShaderProgram, std::string> link();
 
-  private:
+private:
   std::vector<Shader> attachedShaders;
-
   std::vector<Shader>::iterator findShaderByType(GLenum type);
-}
+};
 #endif //__PHELSUMA_SHADER_PROGRAM_LINKER_H__

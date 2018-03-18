@@ -8,8 +8,10 @@ FIND_PACKAGE(glfw3 REQUIRED)
 INCLUDE_DIRECTORIES(
   "${PROJECT_SOURCE_DIR}/include"
   ${glfw3_INCLUDE_DIR}
+  ${SCE_VECTORMATH_PATH}
 )
 
-ADD_EXECUTABLE(Test src/Main.cpp src/glad.c src/ShaderCompiler.cpp src/Shader.cpp)
-TARGET_LINK_LIBRARIES(Test glfw ${CMAKE_DL_LIBS})
+SET(SCE_VECTORMATH_PATH "")
 
+ADD_EXECUTABLE(Test src/Main.cpp src/glad.c src/ShaderCompiler.cpp src/ShaderProgramLinker.cpp src/ShaderProgram.cpp src/Shader.cpp)
+TARGET_LINK_LIBRARIES(Test glfw ${CMAKE_DL_LIBS})
