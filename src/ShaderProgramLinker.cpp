@@ -1,3 +1,4 @@
+#include <string>
 #include "ShaderProgramLinker.h"
 
 #include "Shader.h"
