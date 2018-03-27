@@ -30,7 +30,7 @@ GLFWwindow* initializeOpenGL() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  GLFWwindow* window = glfwCreateWindow(800, 600, "Phelsuma", NULL, NULL); 
+  GLFWwindow* window = glfwCreateWindow(800, 600, "ColoredTexTriangle", NULL, NULL); 
   if (window == nullptr) {
     std::cerr << "Failed to initialize GLFW window." << std::endl;
     killProgram();
