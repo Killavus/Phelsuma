@@ -1,7 +1,6 @@
 #ifndef __PHELSUMA_SHADER_PROGRAM_LINKER_H__
 #define __PHELSUMA_SHADER_PROGRAM_LINKER_H__
 #include <glad/glad.h>
-#include <variant>
 #include <vector>
 #include <algorithm>
 
@@ -13,7 +12,7 @@ public:
   bool attachShader(const Shader& shader);
   bool detachShader(GLenum shaderType);
 
-  std::variant<ShaderProgram, std::string> link();
+  ShaderProgram link();
 
 private:
   std::vector<Shader> attachedShaders;

@@ -1,11 +1,15 @@
 #include "ShaderProgram.h"
 
 void ShaderProgram::destroy() const {
-  glDeleteProgram(programId);
+  if(!invalid()) {
+    glDeleteProgram(programId);
+  }
 }
 
 void ShaderProgram::use() const {
-  glUseProgram(programId);
+  if(!invalid()) {
+    glUseProgram(programId);
+  }
 }
 
 void ShaderProgram::uniformFloat(const std::string& name, GLfloat value) const {

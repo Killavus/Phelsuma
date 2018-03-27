@@ -5,7 +5,6 @@
 #include <string>
 
 #include <cstdlib>
-#include <variant>
 
 #include <vectormath/SSE/cpp/vectormath_aos.h>
 #define STB_IMAGE_IMPLEMENTATION
@@ -48,14 +47,14 @@ GLFWwindow* initializeOpenGL() {
 
 Shader shaderFromFile(const std::string& path, GLenum type) {
   ShaderCompiler compiler = ShaderCompiler::fromFile(path, type);
-  std::variant<Shader, std::string> maybeShader = compiler.compile();
+  Shader shader = compiler.compile();
 
-  if (std::holds_alternative<std::string>(maybeShader)) {
-    std::cerr << path << " -- " << "Shader compilation error!\n\n" << std::get<std::string>(maybeShader) << std::endl;
+  if (shader.invalid()) {
+    std::cerr << path << " -- " << "Shader compilation error!\n\n" << shader.errorMessage() << std::endl;
     std::exit(1);
   }
 
-  return std::get<Shader>(maybeShader);
+  return shader; 
 }
 
 int main(int argc, char *argv[]) {
@@ -68,14 +67,13 @@ int main(int argc, char *argv[]) {
   ShaderProgramLinker linker;
   linker.attachShader(vertex);
   linker.attachShader(fragment);
-  std::variant<ShaderProgram, std::string> maybeProgram = linker.link();
+  ShaderProgram program = linker.link();
 
-  if (std::holds_alternative<std::string>(maybeProgram)) {
-    std::cerr << "Shader program link error!\n\n" << std::get<std::string>(maybeProgram) << std::endl;
+  if (program.invalid()) {
+    std::cerr << "Shader program link error!\n\n" << program.errorMessage() << std::endl;
     std::exit(1);
   }
 
-  ShaderProgram program = std::get<ShaderProgram>(maybeProgram);
   stbi_set_flip_vertically_on_load(true);
   float vertices[] = {
     /* positions        *//* colors          *//* tex coords */

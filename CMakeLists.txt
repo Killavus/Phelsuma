@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.12.1)
 
-SET(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_CXX_STANDARD 14)
 PROJECT(Phelsuma)
 set(CMAKE_BUILD_TYPE Debug)
 
@@ -9,16 +9,17 @@ FIND_PACKAGE(glfw3 REQUIRED)
 INCLUDE_DIRECTORIES(
   "${PROJECT_SOURCE_DIR}/include"
   ${glfw3_INCLUDE_DIR}
-  ${SCE_VECTORMATH_PATH}
+  ${PHELSUMA_SCE_VECTORMATH_PATH}
 )
 
 SET(PHELSUMA_GLAD_SRC_PATH src/glad.c)
-SET(SCE_VECTORMATH_PATH "")
+SET(PHELSUMA_SCE_VECTORMATH_PATH "")
 
 SET(ENGINE_CPPFILES ${PHELSUMA_GLAD_SRC_PATH} src/ShaderCompiler.cpp src/ShaderProgramLinker.cpp src/ShaderProgram.cpp src/Shader.cpp)
 
-ADD_EXECUTABLE(ColoredTexTriangle src/ColoredTexTriangle/Main.cpp ${ENGINE_CPPFILES})
-ADD_EXECUTABLE(PointCloud3D src/PointCloud3D/Main.cpp ${ENGINE_CPPFILES})
+ADD_EXECUTABLE(ColoredTexTriangle src/ColoredTexTriangle/Main.cpp)
+ADD_EXECUTABLE(PointCloud3D src/PointCloud3D/Main.cpp)
+ADD_LIBRARY(Phelsuma ${ENGINE_CPPFILES})
 
-TARGET_LINK_LIBRARIES(ColoredTexTriangle glfw ${CMAKE_DL_LIBS})
-TARGET_LINK_LIBRARIES(PointCloud3D glfw ${CMAKE_DL_LIBS})
+TARGET_LINK_LIBRARIES(ColoredTexTriangle glfw Phelsuma ${CMAKE_DL_LIBS})
+TARGET_LINK_LIBRARIES(PointCloud3D glfw Phelsuma ${CMAKE_DL_LIBS})

@@ -1,15 +1,15 @@
 #ifndef __PHELSUMA_SHADER_COMPILER_H__
 #define __PHELSUMA_SHADER_COMPILER_H__
 
-#include <variant>
 #include <glad/glad.h>
+#include <boost/variant.hpp>
 
 #include "Shader.h"
 
 class ShaderCompiler {
 public:
   ShaderCompiler(std::string sourceCode, GLenum shaderType) : sourceCode(sourceCode), shaderType(shaderType) {};
-  std::variant<Shader, std::string> compile() const;
+  Shader compile() const;
 
   static ShaderCompiler fromFile(const std::string& path, GLenum shaderType);
 

@@ -8,10 +8,16 @@ using namespace Vectormath::Aos;
 
 class ShaderProgram {
 public:
-  ShaderProgram(GLuint programId) : programId(programId) {};
+  ShaderProgram(GLuint programId) : programId(programId), error("") {};
+  ShaderProgram(const std::string& error) : error(error), programId(0) {};
+
   GLuint id() const { return programId; }
+
+  bool invalid() const { return programId == 0; }
   void destroy() const;
   void use() const;
+
+  const std::string& errorMessage() const { return error; }
 
   void uniformFloat(const std::string& name, GLfloat value) const;
   void uniformInt(const std::string& name, GLint value) const;
@@ -23,5 +29,6 @@ public:
   void uniformMat4f(const std::string& name, const Matrix4& mat) const;
 private:
   GLuint programId;
+  std::string error;
 };
 #endif //__PHELSUMA_SHADER_PROGRAM_H__

@@ -15,9 +15,7 @@ ShaderCompiler ShaderCompiler::fromFile(const std::string &path, GLenum shaderTy
   return ShaderCompiler(sourceCodeStream.str(), shaderType);
 }
 
-std::variant<Shader, std::string> ShaderCompiler::compile() const {
-  std::variant<Shader, std::string> result(std::string(""));
-
+Shader ShaderCompiler::compile() const {
   GLuint shaderId = glCreateShader(shaderType);
   GLint compilationStatus = GL_TRUE;
 
@@ -32,11 +30,11 @@ std::variant<Shader, std::string> ShaderCompiler::compile() const {
     infoLogLength = infoLogLength == 0 ? 512 : infoLogLength;
     char *infoLog = new char[infoLogLength + 1];
     glGetShaderInfoLog(shaderId, infoLogLength, NULL, infoLog);
-    result = std::string(infoLog);
+    std::string errorMessage(infoLog);
     delete infoLog;
-  } else {
-	result = Shader(shaderId, shaderType);
-  }
 
-  return result;
+    return Shader(infoLog);
+  }
+  
+	return Shader(shaderId, shaderType);
 }

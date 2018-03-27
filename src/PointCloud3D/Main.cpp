@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <variant>
 #include <iterator>
 #include <vector>
 #include <cstdlib>
@@ -11,7 +10,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#define _VECTORMATH_DEBUG
 #include <vectormath/SSE/cpp/vectormath_aos.h>
 
 #include "Shader.h"
@@ -55,14 +53,14 @@ GLFWwindow* start() {
 
 Shader shaderFromFile(const std::string& path, GLenum type) {
   ShaderCompiler compiler = ShaderCompiler::fromFile(path, type);
-  std::variant<Shader, std::string> maybeShader = compiler.compile();
+  Shader shader = compiler.compile();
 
-  if (std::holds_alternative<std::string>(maybeShader)) {
-    std::cerr << path << " -- " << "Shader compilation error!\n\n" << std::get<std::string>(maybeShader) << std::endl;
-    terminate();
+  if (shader.invalid()) {
+    std::cerr << path << " -- " << "Shader compilation error!\n\n" << shader.errorMessage() << std::endl;
+    std::exit(1);
   }
 
-  return std::get<Shader>(maybeShader);
+  return shader; 
 }
 
 ShaderProgram makeProgram(
@@ -72,14 +70,14 @@ ShaderProgram makeProgram(
   ShaderProgramLinker linker;
   for(; it != end; ++it) { linker.attachShader(*it); }
 
-  std::variant<ShaderProgram, std::string> maybeProgram = linker.link();
+  ShaderProgram program = linker.link();
 
-  if (std::holds_alternative<std::string>(maybeProgram)) {
-    std::cerr << " -- " << "Shader program link error!\n\n" << std::get<std::string>(maybeProgram) << std::endl;
+  if (program.invalid()) {
+    std::cerr << " -- " << "Shader program link error!\n\n" << program.errorMessage() << std::endl;
     terminate();
   }
   
-  return std::get<ShaderProgram>(maybeProgram);
+  return program;
 }
 
 std::vector<float> generatePoints(unsigned int pointsCount = 1000) {
@@ -136,7 +134,6 @@ int main(int argc, char *argv[]) {
   glPointSize(5.0f);
   Matrix4 camera = Matrix4::identity();
   Matrix4 projection = Matrix4::frustum(25.0, -50.0, -32.0, 32.0, 0.1, 100.0); 
-  print(projection);
 
   program.use();
   program.uniformMat4f("camera", camera);

@@ -5,6 +5,8 @@
 #include "ShaderProgram.h"
 
 bool ShaderProgramLinker::attachShader(const Shader& shader) {
+  if (shader.invalid()) { return false; }
+
   auto sameTypeElement = findShaderByType(shader.type());
 
   if (sameTypeElement != attachedShaders.end()) {
@@ -26,11 +28,9 @@ bool ShaderProgramLinker::detachShader(GLenum type) {
   }
 }
 
-std::variant<ShaderProgram, std::string> ShaderProgramLinker::link() {
-  std::variant<ShaderProgram, std::string> result = std::string("");
-
+ShaderProgram ShaderProgramLinker::link() {
   GLuint programId = glCreateProgram();
-  GLint linkStatus = GL_FALSE, infoLogLength;
+  GLint linkStatus = GL_TRUE, infoLogLength;
 
   for (auto const& shader : attachedShaders) {
     glAttachShader(programId, shader.id());
@@ -45,17 +45,16 @@ std::variant<ShaderProgram, std::string> ShaderProgramLinker::link() {
   
     char *infoLog = new char[infoLogLength + 1];
     glGetProgramInfoLog(programId, infoLogLength, NULL, infoLog);
-    result = std::string(infoLog);
-    delete infoLog;
-  } else {
-    result = ShaderProgram(programId);
+    std::string errorMessage(infoLog);
+
+    return ShaderProgram(errorMessage);
+  }
 
 	for (auto const& shader : attachedShaders) {
 	  glDetachShader(programId, shader.id());
 	}
-  }
 
-  return result;
+  return ShaderProgram(programId);
 }
 
 std::vector<Shader>::iterator ShaderProgramLinker::findShaderByType(GLenum type) {
