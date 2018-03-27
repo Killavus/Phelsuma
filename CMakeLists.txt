@@ -12,14 +12,18 @@ INCLUDE_DIRECTORIES(
   ${PHELSUMA_SCE_VECTORMATH_PATH}
 )
 
+OPTION(PHELSUMA_BUILD_EXAMPLES ON)
+
 SET(PHELSUMA_GLAD_SRC_PATH src/glad.c)
 SET(PHELSUMA_SCE_VECTORMATH_PATH "")
 
 SET(ENGINE_CPPFILES ${PHELSUMA_GLAD_SRC_PATH} src/ShaderCompiler.cpp src/ShaderProgramLinker.cpp src/ShaderProgram.cpp src/Shader.cpp)
 
-ADD_EXECUTABLE(ColoredTexTriangle src/ColoredTexTriangle/Main.cpp)
-ADD_EXECUTABLE(PointCloud3D src/PointCloud3D/Main.cpp)
 ADD_LIBRARY(Phelsuma ${ENGINE_CPPFILES})
 
-TARGET_LINK_LIBRARIES(ColoredTexTriangle glfw Phelsuma ${CMAKE_DL_LIBS})
-TARGET_LINK_LIBRARIES(PointCloud3D glfw Phelsuma ${CMAKE_DL_LIBS})
+IF (PHELSUMA_BUILD_EXAMPLES)
+  ADD_EXECUTABLE(ColoredTexTriangle src/ColoredTexTriangle/Main.cpp)
+  ADD_EXECUTABLE(PointCloud3D src/PointCloud3D/Main.cpp)
+  TARGET_LINK_LIBRARIES(ColoredTexTriangle glfw Phelsuma ${CMAKE_DL_LIBS})
+  TARGET_LINK_LIBRARIES(PointCloud3D glfw Phelsuma ${CMAKE_DL_LIBS})
+ENDIF()
