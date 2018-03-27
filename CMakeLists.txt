@@ -12,9 +12,10 @@ INCLUDE_DIRECTORIES(
   ${SCE_VECTORMATH_PATH}
 )
 
+SET(PHELSUMA_GLAD_SRC_PATH src/glad.c)
 SET(SCE_VECTORMATH_PATH "")
 
-SET(ENGINE_CPPFILES src/glad.c src/ShaderCompiler.cpp src/ShaderProgramLinker.cpp src/ShaderProgram.cpp src/Shader.cpp)
+SET(ENGINE_CPPFILES ${PHELSUMA_GLAD_SRC_PATH} src/ShaderCompiler.cpp src/ShaderProgramLinker.cpp src/ShaderProgram.cpp src/Shader.cpp)
 
 ADD_EXECUTABLE(ColoredTexTriangle src/ColoredTexTriangle/Main.cpp ${ENGINE_CPPFILES})
 ADD_EXECUTABLE(PointCloud3D src/PointCloud3D/Main.cpp ${ENGINE_CPPFILES})
