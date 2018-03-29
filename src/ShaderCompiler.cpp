@@ -1,3 +1,4 @@
+#include <iostream>
 #include <fstream>
 #include <sstream>
 
@@ -33,7 +34,7 @@ Shader ShaderCompiler::compile() const {
     std::string errorMessage(infoLog);
     delete infoLog;
 
-    return Shader(infoLog);
+    return Shader(errorMessage);
   }
   
 	return Shader(shaderId, shaderType);

@@ -6,7 +6,7 @@
 class Shader {
 public:
   Shader(GLuint shaderId, GLuint shaderType) : shaderId(shaderId), shaderType(shaderType), error("") {}
-  Shader(const std::string& error): error(error), shaderId(0), shaderType(GL_INVALID_VALUE) {}
+  Shader(const std::string& error): shaderId(0), shaderType(GL_INVALID_VALUE), error(error) {}
 
   void destroy() const;
 

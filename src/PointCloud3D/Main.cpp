@@ -88,7 +88,7 @@ std::vector<float> generatePoints(unsigned int pointsCount = 1000) {
   std::vector<float> result;
   result.resize(pointsCount * 4);
 
-  for(int i = 0; i < pointsCount; ++i) {
+  for(unsigned int i = 0; i < pointsCount; ++i) {
     float x = MIN_X + static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX / (MAX_X - MIN_X));
     float y = MIN_Y + static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX / (MAX_Y - MIN_Y));
     float z = MIN_Z + static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX / (MAX_Z - MIN_Z));

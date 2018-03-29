@@ -9,7 +9,7 @@ using namespace Vectormath::Aos;
 class ShaderProgram {
 public:
   ShaderProgram(GLuint programId) : programId(programId), error("") {};
-  ShaderProgram(const std::string& error) : error(error), programId(0) {};
+  ShaderProgram(const std::string& error) : programId(0), error(error) {};
 
   GLuint id() const { return programId; }
 
