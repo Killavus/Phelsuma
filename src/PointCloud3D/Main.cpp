@@ -19,7 +19,7 @@
 
 using namespace Vectormath::Aos;
 
-void terminate(int status = EXIT_FAILURE) {
+void terminate(int status) {
   glfwTerminate();
   std::exit(status);
 }
@@ -28,7 +28,7 @@ GLFWwindow* start() {
   std::srand(std::time(NULL));
   if (glfwInit() == GLFW_FALSE) {
     std::cerr << "Failed to initialize GLFW." << std::endl;
-    terminate();
+    terminate(EXIT_FAILURE);
   }
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -39,13 +39,13 @@ GLFWwindow* start() {
 
   if (window == nullptr) {
     std::cerr << "Failed to initialize GLFW window." << std::endl;
-    terminate();
+    terminate(EXIT_FAILURE);
   }
 
   glfwMakeContextCurrent(window);
   if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
     std::cerr << "Failed to initialize OpenGL context." << std::endl;
-    terminate();
+    terminate(EXIT_FAILURE);
   }
 
   return window;
@@ -74,7 +74,7 @@ ShaderProgram makeProgram(
 
   if (program.invalid()) {
     std::cerr << " -- " << "Shader program link error!\n\n" << program.errorMessage() << std::endl;
-    terminate();
+    terminate(EXIT_FAILURE);
   }
   
   return program;

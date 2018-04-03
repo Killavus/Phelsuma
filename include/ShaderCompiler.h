@@ -2,8 +2,6 @@
 #define __PHELSUMA_SHADER_COMPILER_H__
 
 #include <glad/glad.h>
-#include <boost/variant.hpp>
-
 #include "Shader.h"
 
 class ShaderCompiler {
