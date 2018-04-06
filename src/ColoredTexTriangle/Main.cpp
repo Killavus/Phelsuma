@@ -10,56 +10,10 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#include "ShaderCompiler.h"
-#include "ShaderProgramLinker.h"
-#include "ShaderProgram.h"
-
-void killProgram(int status = EXIT_FAILURE) {
-  glfwTerminate();
-  std::exit(status);
-}
-
-GLFWwindow* initializeOpenGL() {
-  if (glfwInit() == GLFW_FALSE) {
-    std::cerr << "Failed to initialize GLFW." << std::endl;
-    killProgram();
-  }
-
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-  GLFWwindow* window = glfwCreateWindow(800, 600, "ColoredTexTriangle", NULL, NULL); 
-  if (window == nullptr) {
-    std::cerr << "Failed to initialize GLFW window." << std::endl;
-    killProgram();
-  }
-  
-  glfwMakeContextCurrent(window);
-
-  if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-    std::cerr << "Failed to initialize OpenGL context." << std::endl;
-    killProgram();
-  }
-
-  return window;
-}
-
-Shader shaderFromFile(const std::string& path, GLenum type) {
-  ShaderCompiler compiler = ShaderCompiler::fromFile(path, type);
-  Shader shader = compiler.compile();
-
-  if (shader.invalid()) {
-    std::cerr << path << " -- " << "Shader compilation error!\n\n" << shader.errorMessage() << std::endl;
-    std::exit(1);
-  }
-
-  return shader; 
-}
+#include "examples/Utils.h"
 
 int main(int argc, char *argv[]) {
-  GLFWwindow *window = initializeOpenGL();
-  glViewport(0, 0, 800, 600);
+  GLFWwindow *window = start("ColoredTexturedTriangle");
 
   Shader vertex = shaderFromFile("shaders/simple.vs", GL_VERTEX_SHADER),
          fragment = shaderFromFile("shaders/simple.fs", GL_FRAGMENT_SHADER);
@@ -114,7 +68,7 @@ int main(int argc, char *argv[]) {
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    program.uniformMat4f("transform", mat);
+    program.uniformMat44f("transform", mat);
     program.use();
 
     glBindVertexArray(VAO);    
@@ -123,5 +77,5 @@ int main(int argc, char *argv[]) {
     glfwPollEvents();
   }
 
-  killProgram(EXIT_SUCCESS);
+  terminate(EXIT_SUCCESS);
 }

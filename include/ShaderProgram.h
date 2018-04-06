@@ -26,7 +26,8 @@ public:
   void uniformVec4f(const std::string& name, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) const;
   void uniformVec3f(const std::string& name, const Vector3& vec) const;
   void uniformVec3f(const std::string& name, GLfloat v0, GLfloat v1, GLfloat v2) const;
-  void uniformMat4f(const std::string& name, const Matrix4& mat) const;
+  void uniformMat44f(const std::string& name, const Matrix4& mat) const;
+  void uniformMat43f(const std::string& name, const Transform3& mat) const;
 private:
   GLuint programId;
   std::string error;

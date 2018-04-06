@@ -1,9 +1,4 @@
 #include <iostream>
-#include <fstream>
-#include <string>
-#include <iterator>
-#include <vector>
-#include <cstdlib>
 #include <ctime>
 #include <cmath>
 
@@ -11,74 +6,9 @@
 #include <GLFW/glfw3.h>
 
 #include <vectormath/SSE/cpp/vectormath_aos.h>
-
-#include "Shader.h"
-#include "ShaderProgram.h"
-#include "ShaderProgramLinker.h"
-#include "ShaderCompiler.h"
+#include "examples/Utils.h"
 
 using namespace Vectormath::Aos;
-
-void terminate(int status) {
-  glfwTerminate();
-  std::exit(status);
-}
-
-GLFWwindow* start() {
-  std::srand(std::time(NULL));
-  if (glfwInit() == GLFW_FALSE) {
-    std::cerr << "Failed to initialize GLFW." << std::endl;
-    terminate(EXIT_FAILURE);
-  }
-
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-  GLFWwindow* window = glfwCreateWindow(800, 600, "PointCloud3D", NULL, NULL);
-
-  if (window == nullptr) {
-    std::cerr << "Failed to initialize GLFW window." << std::endl;
-    terminate(EXIT_FAILURE);
-  }
-
-  glfwMakeContextCurrent(window);
-  if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-    std::cerr << "Failed to initialize OpenGL context." << std::endl;
-    terminate(EXIT_FAILURE);
-  }
-
-  return window;
-}
-
-Shader shaderFromFile(const std::string& path, GLenum type) {
-  ShaderCompiler compiler = ShaderCompiler::fromFile(path, type);
-  Shader shader = compiler.compile();
-
-  if (shader.invalid()) {
-    std::cerr << path << " -- " << "Shader compilation error!\n\n" << shader.errorMessage() << std::endl;
-    std::exit(1);
-  }
-
-  return shader; 
-}
-
-ShaderProgram makeProgram(
-  std::vector<Shader>::iterator it,
-  std::vector<Shader>::iterator end
-) {
-  ShaderProgramLinker linker;
-  for(; it != end; ++it) { linker.attachShader(*it); }
-
-  ShaderProgram program = linker.link();
-
-  if (program.invalid()) {
-    std::cerr << " -- " << "Shader program link error!\n\n" << program.errorMessage() << std::endl;
-    terminate(EXIT_FAILURE);
-  }
-  
-  return program;
-}
 
 std::vector<float> generatePoints(unsigned int pointsCount = 1000) {
   const float MAX_X = 22.0, MIN_X = -34.0;
@@ -104,8 +34,7 @@ std::vector<float> generatePoints(unsigned int pointsCount = 1000) {
 }
 
 int main(int argc, char *argv[]) {
-  GLFWwindow *window = start();
-  glViewport(0, 0, 800, 600);
+  GLFWwindow *window = start("PointCloud3D");
   
   Shader vertexShader = shaderFromFile("shaders/point3d.vs", GL_VERTEX_SHADER);
   Shader fragmentShader = shaderFromFile("shaders/point3d.fs", GL_FRAGMENT_SHADER);
@@ -136,8 +65,8 @@ int main(int argc, char *argv[]) {
   Matrix4 projection = Matrix4::frustum(25.0, -50.0, -32.0, 32.0, 0.1, 100.0); 
 
   program.use();
-  program.uniformMat4f("camera", camera);
-  program.uniformMat4f("projection", projection);
+  program.uniformMat44f("camera", camera);
+  program.uniformMat44f("projection", projection);
 
   while (!glfwWindowShouldClose(window)) {
     glClearColor(0.0, 0.0, 0.0, 1.0);

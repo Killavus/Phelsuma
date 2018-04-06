@@ -40,6 +40,10 @@ void ShaderProgram::uniformVec3f(const std::string& name, GLfloat v0, GLfloat v1
   glUniform3f(glGetUniformLocation(programId, name.c_str()), v0, v1, v2);
 }
 
-void ShaderProgram::uniformMat4f(const std::string& name, const Matrix4& mat) const {
+void ShaderProgram::uniformMat44f(const std::string& name, const Matrix4& mat) const {
   glUniformMatrix4fv(glGetUniformLocation(programId, name.c_str()), 1, GL_FALSE, (GLfloat*)&mat);
+}
+
+void ShaderProgram::uniformMat43f(const std::string& name, const Transform3& mat) const {
+  glUniformMatrix3x4fv(glGetUniformLocation(programId, name.c_str()), 1, GL_FALSE, (GLfloat*)&mat);
 }

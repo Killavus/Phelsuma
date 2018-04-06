@@ -1,10 +1,13 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.12.1)
 
+SET(CMAKE_BUILD_TYPE Debug)
 SET(CMAKE_CXX_STANDARD 14)
 PROJECT(Phelsuma)
 
 FIND_PACKAGE(OpenGL REQUIRED)
 FIND_PACKAGE(glfw3 REQUIRED)
+
+SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DPHELSUMA_DEBUG_OGL")
 
 INCLUDE_DIRECTORIES(
   "${PROJECT_SOURCE_DIR}/include"
@@ -24,7 +27,7 @@ ENDIF()
 ADD_LIBRARY(glad "${PHELSUMA_GLAD_SRC_PATH}/glad.c")
 TARGET_INCLUDE_DIRECTORIES(glad PRIVATE ${PHELSUMA_GLAD_INCLUDE_PATH})
 
-SET(ENGINE_CPPFILES src/ShaderCompiler.cpp src/ShaderProgramLinker.cpp src/ShaderProgram.cpp src/Shader.cpp)
+SET(ENGINE_CPPFILES src/ShaderCompiler.cpp src/ShaderProgramLinker.cpp src/ShaderProgram.cpp src/Shader.cpp src/BasicModel3D.cpp src/Data3D.cpp src/Texture2D.cpp src/WorldObject3D.cpp)
 
 # Engine:
 ADD_LIBRARY(${PROJECT_NAME} ${ENGINE_CPPFILES})
@@ -35,6 +38,8 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME} glad ${CMAKE_DL_LIBS})
 IF (PHELSUMA_BUILD_EXAMPLES)
   ADD_EXECUTABLE(ColoredTexTriangle src/ColoredTexTriangle/Main.cpp)
   ADD_EXECUTABLE(PointCloud3D src/PointCloud3D/Main.cpp)
+  ADD_EXECUTABLE(RotatingBox src/RotatingBox/Main.cpp)
   TARGET_LINK_LIBRARIES(ColoredTexTriangle glfw ${PROJECT_NAME} ${CMAKE_DL_LIBS})
   TARGET_LINK_LIBRARIES(PointCloud3D glfw ${PROJECT_NAME} ${CMAKE_DL_LIBS})
+  TARGET_LINK_LIBRARIES(RotatingBox glfw ${PROJECT_NAME} ${CMAKE_DL_LIBS})
 ENDIF()
