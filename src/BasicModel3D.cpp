@@ -1,6 +1,8 @@
 #include "BasicModel3D.h"
 #include "Texture.h"
 
+#include <iostream>
+
 BasicModel3D::BasicModel3D(Data3D data, const DrawingPipeline& pipeline = DrawingPipeline(), const TextureSet& textureSet = TextureSet()): data(data) {
   setDrawingPipeline(pipeline);
   setTextureSet(textureSet);
@@ -8,12 +10,20 @@ BasicModel3D::BasicModel3D(Data3D data, const DrawingPipeline& pipeline = Drawin
 
 void BasicModel3D::setTextureSet(const TextureSet& textureSet) {
   this->textureSet = textureSet;
+
+  for (const ShaderProgram &program : drawPipeline) {
+    for (int textureOffset = 0; textureOffset < textureSet.size(); ++textureOffset) {
+      program.use();
+      std::string uniformName = "texture" + std::to_string(textureOffset);
+      program.uniformInt(uniformName.c_str(), textureOffset);      
+    }
+  }
 }
 
 void BasicModel3D::setDrawingPipeline(const DrawingPipeline& pipeline) {
   drawPipeline = pipeline;
-
-  for (auto it = drawPipeline.begin(); it != drawPipeline.end(); ++it) {
+  
+  for (auto it = drawPipeline.begin(); it != drawPipeline.end(); ++it) {    
     data.enableVertexAttributeArrays(*it);
   }
 }

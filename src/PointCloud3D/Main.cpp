@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 
   while (!glfwWindowShouldClose(window)) {
     glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glBindVertexArray(PointsVAO);
     glDrawArrays(GL_POINTS, 0, 1000);

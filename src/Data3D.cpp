@@ -55,12 +55,15 @@ Data3D::~Data3D() {
 
 void Data3D::enableVertexAttributeArrays(const ShaderProgram& program) {
   glBindVertexArray(VAO);
+  program.use();
 
   for (auto it = bufferDescription.begin(); it != bufferDescription.end(); ++it) {
     GLint location = glGetAttribLocation(program.id(), it->name.c_str());
 
-    glVertexAttribPointer(location, it->length, GL_FLOAT, GL_FALSE, it->stride, (void*)(it->offset));
-    glEnableVertexAttribArray(location);
+    if (location != -1) {
+      glVertexAttribPointer(location, it->length, GL_FLOAT, GL_FALSE, it->stride, (void*)(it->offset));
+      glEnableVertexAttribArray(location);
+    }
   }
 
   glBindVertexArray(0);
