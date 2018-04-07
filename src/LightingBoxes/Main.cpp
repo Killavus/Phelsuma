@@ -97,9 +97,9 @@ int main() {
 
   WorldObject3D box(boxModel, Matrix4(Transform3(Matrix3::scale(Vector3(0.4, 0.4, 0.4)), Vector3(-0.5f, 0.0f, 0.5f))));
   WorldObject3D box2(boxModel, Matrix4(Transform3(Matrix3::scale(Vector3(0.4, 0.4, 0.4)), Vector3(0.5f, 0.0f, 0.5f))));
-  WorldObject3D light(lightModel, Matrix4(Transform3(Matrix3::scale(Vector3(0.1, 0.1, 0.1)), Vector3(0.0f, 0.0f, 1.0f))));
+  WorldObject3D light(lightModel, Matrix4(Transform3(Matrix3::scale(Vector3(0.1, 0.1, 0.1)), Vector3(0.0f, 0.0f, 1.5f))));
 
-  Matrix4 view = Matrix4::translation(Vector3(0.0, 0.0, -2.5));
+  Matrix4 view = Matrix4::translation(Vector3(0.0, 0.0, -4.5));
   Matrix4 camera = Matrix4::perspective(M_PI / 4, 4.0 / 3.0, 0.1, 100.0);
 
   Vector4 lightColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -117,13 +117,13 @@ int main() {
   lightProgram.uniformVec4f("lightColor", lightColor);
 
   float rotationUnit = (2 * M_PI) / 360;
-  float translationUnit = 0.02;
+  Vector3 lightRotationAxis = Vector3(0.0, 0.0, 0.5);
 
   while (!glfwWindowShouldClose(window)) {
-    light.transform() *= Matrix4::translation(Vector3(translationUnit, 0.0, 0.0));
-    if (abs(light.transform().getTranslation().getX() - 0.5) < 0.02 || abs(light.transform().getTranslation().getX() + 0.5) < 0.02) {
-      translationUnit *= -1;
-    }
+    Vector3 lightToRotAxis = normalize(light.transform().getTranslation() - lightRotationAxis);
+    Vector3 afterRotPos = Matrix3::rotationY(rotationUnit * 4) * lightToRotAxis + lightRotationAxis;
+    Vector3 rotationTransDelta = afterRotPos - light.transform().getTranslation();
+    light.transform() *= Matrix4::translation(rotationTransDelta);
 
     phongProgram.use();
     phongProgram.uniformVec4f("lightPos", Vector4(light.transform().getTranslation(), 1.0));

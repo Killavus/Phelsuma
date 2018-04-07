@@ -17,7 +17,7 @@ void main() {
   vec4 viewToFrag = normalize(viewPos - WorldPos);
   vec4 reflectedRay = reflect(-ray, norm);
 
-  float specularC = pow(max(dot(viewToFrag, reflectedRay), 0.0), 32);
+  float specularC = pow(max(dot(viewToFrag, -reflectedRay), 0.0), 32);
   float ambientC = 0.1;
   float diffuseC = max(dot(norm, ray), 0.0);
   float specularStrength = 0.5;
