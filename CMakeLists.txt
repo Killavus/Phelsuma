@@ -25,6 +25,7 @@ ENDIF()
 
 # GLAD:
 ADD_LIBRARY(glad "${PHELSUMA_GLAD_SRC_PATH}/glad.c")
+TARGET_LINK_LIBRARIES(glad ${CMAKE_DL_LIBS})
 TARGET_INCLUDE_DIRECTORIES(glad PRIVATE ${PHELSUMA_GLAD_INCLUDE_PATH})
 
 SET(ENGINE_CPPFILES src/ShaderCompiler.cpp src/ShaderProgramLinker.cpp src/ShaderProgram.cpp src/Shader.cpp src/BasicModel3D.cpp src/Data3D.cpp src/Texture2D.cpp src/WorldObject3D.cpp src/PhongLightScene.cpp src/PhongObject3D.cpp)

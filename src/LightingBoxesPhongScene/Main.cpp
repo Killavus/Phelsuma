@@ -76,11 +76,13 @@ int main() {
   GLsizei width, height, nrChannels;
   unsigned char *boxImage = stbi_load("textures/box.jpg", &width, &height, &nrChannels, 0);
 
-  Data3D boxData3D(boxVertices, sizeof(boxVertices), std::vector<Data3DDescription> {
+  std::vector<Data3DDescription> boxData3DDesc { 
     Data3DDescription("vertexPos", 3, 0, 8 * sizeof(GLfloat)),
     Data3DDescription("texturePos", 2, 3 * sizeof(GLfloat), 8 * sizeof(GLfloat)),
     Data3DDescription("normal", 3, 5 * sizeof(GLfloat), 8 * sizeof(GLfloat))
-  });
+  };
+
+  Data3D boxData3D(boxVertices, sizeof(boxVertices), boxData3DDesc);
 
   Texture2D boxTexture(
     boxImage,

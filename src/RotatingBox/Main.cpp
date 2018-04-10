@@ -85,10 +85,12 @@ int main() {
     GL_UNSIGNED_BYTE
   );
 
-  Data3D boxData3D(boxVertices, sizeof(boxVertices), std::vector<Data3DDescription> {
+  std::vector<Data3DDescription> boxData3DDesc {
     Data3DDescription("vertexPos", 3, 0, 5 * sizeof(GLfloat)),
     Data3DDescription("texturePos", 2, 3 * sizeof(GLfloat), 5 * sizeof(GLfloat))
-  });
+  };
+
+  Data3D boxData3D(boxVertices, sizeof(boxVertices), boxData3DDesc);
 
   Shader boxFragment = shaderFromFile("shaders/box.fs", GL_FRAGMENT_SHADER);
   Shader boxVertex = shaderFromFile("shaders/box.vs", GL_VERTEX_SHADER);
