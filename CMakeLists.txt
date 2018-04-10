@@ -27,7 +27,7 @@ ENDIF()
 ADD_LIBRARY(glad "${PHELSUMA_GLAD_SRC_PATH}/glad.c")
 TARGET_INCLUDE_DIRECTORIES(glad PRIVATE ${PHELSUMA_GLAD_INCLUDE_PATH})
 
-SET(ENGINE_CPPFILES src/ShaderCompiler.cpp src/ShaderProgramLinker.cpp src/ShaderProgram.cpp src/Shader.cpp src/BasicModel3D.cpp src/Data3D.cpp src/Texture2D.cpp src/WorldObject3D.cpp)
+SET(ENGINE_CPPFILES src/ShaderCompiler.cpp src/ShaderProgramLinker.cpp src/ShaderProgram.cpp src/Shader.cpp src/BasicModel3D.cpp src/Data3D.cpp src/Texture2D.cpp src/WorldObject3D.cpp src/PhongLightScene.cpp src/PhongObject3D.cpp)
 
 # Engine:
 ADD_LIBRARY(${PROJECT_NAME} ${ENGINE_CPPFILES})
@@ -40,9 +40,11 @@ IF (PHELSUMA_BUILD_EXAMPLES)
   ADD_EXECUTABLE(PointCloud3D src/PointCloud3D/Main.cpp)
   ADD_EXECUTABLE(RotatingBox src/RotatingBox/Main.cpp)
   ADD_EXECUTABLE(LightingBoxes src/LightingBoxes/Main.cpp)
+  ADD_EXECUTABLE(LightingBoxesPhongScene src/LightingBoxesPhongScene/Main.cpp)
 
   TARGET_LINK_LIBRARIES(ColoredTexTriangle glfw ${PROJECT_NAME} ${CMAKE_DL_LIBS})
   TARGET_LINK_LIBRARIES(PointCloud3D glfw ${PROJECT_NAME} ${CMAKE_DL_LIBS})
   TARGET_LINK_LIBRARIES(RotatingBox glfw ${PROJECT_NAME} ${CMAKE_DL_LIBS})
   TARGET_LINK_LIBRARIES(LightingBoxes glfw ${PROJECT_NAME} ${CMAKE_DL_LIBS})
+  TARGET_LINK_LIBRARIES(LightingBoxesPhongScene glfw ${PROJECT_NAME} ${CMAKE_DL_LIBS})
 ENDIF()

@@ -51,7 +51,6 @@ int main(int argc, char *argv[]) {
 
   int width, height, nrChannels;
   unsigned char *data = stbi_load("textures/grass.jpg", &width, &height, &nrChannels, 0);
-  std::cout << nrChannels << std::endl;
   GLuint texture;
   glGenTextures(1, &texture);
   glActiveTexture(GL_TEXTURE0);

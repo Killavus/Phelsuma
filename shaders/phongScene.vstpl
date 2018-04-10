@@ -14,7 +14,7 @@ uniform mat4 camera;
 
 void main() {
   WorldPos = model * vec4(vertexPos, 1.0);
-  gl_Position = camera * view * WorldPos;
   TexturePos = texturePos;
   Normal = model * vec4(normal, 0.0);
+  gl_Position = camera * view * WorldPos;
 }

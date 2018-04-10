@@ -65,7 +65,6 @@ int main() {
   stbi_set_flip_vertically_on_load(true);
   GLsizei width, height, nrChannels;
   unsigned char *boxImage = stbi_load("textures/box.jpg", &width, &height, &nrChannels, 0);
-  std::cout << nrChannels;
 
   Texture2D boxTexture(
     boxImage,

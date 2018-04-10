@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <set>
+#include <ctype.h>
 
 #include "ShaderCompiler.h"
 #include "Shader.h"
@@ -16,9 +18,11 @@ ShaderCompiler ShaderCompiler::fromFile(const std::string &path, GLenum shaderTy
   return ShaderCompiler(sourceCodeStream.str(), shaderType);
 }
 
-Shader ShaderCompiler::compile() const {
+Shader ShaderCompiler::compile() {
   GLuint shaderId = glCreateShader(shaderType);
   GLint compilationStatus = GL_TRUE;
+
+  replaceTokens();
 
   const char *sourceCodeCstr = sourceCode.c_str();
   glShaderSource(shaderId, 1, &sourceCodeCstr, nullptr);
@@ -38,4 +42,19 @@ Shader ShaderCompiler::compile() const {
   }
   
 	return Shader(shaderId, shaderType);
+}
+
+void ShaderCompiler::setTokenReplacement(const std::string& token, const std::string& value) {
+  tokenReplacements.insert(std::make_pair(token, value));
+}
+
+void ShaderCompiler::replaceTokens() {
+  for (auto it = tokenReplacements.begin(); it != tokenReplacements.end(); ++it) {
+    size_t pos = sourceCode.find(it->first);
+
+    while (pos != std::string::npos) {
+      sourceCode.replace(pos, it->first.size(), it->second);
+      pos = sourceCode.find(it->first, pos + it->second.size());
+    }
+  }
 }
