@@ -14,7 +14,7 @@ Data3D::Data3D(
   GLuint verticesSize,
   GLuint elementsSize,
   std::vector<Data3DDescription>& bufferDescription = Data3D::defaultBufferDescription
-) : bufferDescription(bufferDescription), indexedDraw(true), verticesSize(verticesSize), elementsSize(elementsSize) {
+) : indexedDraw(true), bufferDescription(bufferDescription) {
   glGenVertexArrays(1, &VAO);
   GLuint VBO, EBO;
   glGenBuffers(1, &VBO);
@@ -34,7 +34,7 @@ Data3D::Data3D(
   GLfloat vertices[],
   GLuint verticesSize,
   std::vector<Data3DDescription>& bufferDescription = Data3D::defaultBufferDescription
-) : bufferDescription(bufferDescription), indexedDraw(false), verticesSize(verticesSize) {
+) : indexedDraw(false), bufferDescription(bufferDescription) {
   glGenVertexArrays(1, &VAO);
   GLuint VBO;
   glGenBuffers(1, &VBO);
@@ -61,7 +61,7 @@ void Data3D::enableVertexAttributeArrays(const ShaderProgram& program) {
     GLint location = glGetAttribLocation(program.id(), it->name.c_str());
 
     if (location != -1) {
-      glVertexAttribPointer(location, it->length, GL_FLOAT, GL_FALSE, it->stride, (void*)(it->offset));
+      glVertexAttribPointer(location, it->length, GL_FLOAT, GL_FALSE, it->stride, (void*)(size_t)(it->offset));
       glEnableVertexAttribArray(location);
     }
   }

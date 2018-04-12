@@ -14,7 +14,7 @@ struct PhongSpotlight {
     float cutoffNear,
     float cutoffFar,
     PhongLightParameters parameters
-  ) : position(position), direction(direction), attenuationParameters(attenuationParameters), cutoffNear(cutoffNear), cutoffFar(cutoffFar), parameters(parameters) {}
+  ) : cutoffNear(cutoffNear), cutoffFar(cutoffFar), direction(direction), position(position), attenuationParameters(attenuationParameters), parameters(parameters) {}
 
   float cutoffNear;
   float cutoffFar;

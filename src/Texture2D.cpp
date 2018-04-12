@@ -7,7 +7,7 @@ Texture2D::Texture2D(
   GLenum format,
   GLenum textureType,
   GLenum dataType
-) : textureType(textureType), dataType(dataType), width(width), height(height), format(format) {
+) :width(width), height(height), textureType(textureType), dataType(dataType), format(format) {
   glGenTextures(1, &textureId);
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(textureType, textureId);

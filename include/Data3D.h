@@ -28,7 +28,6 @@ public:
 
 private:
   bool indexedDraw;
-  GLuint verticesSize, elementsSize;
   GLsizei _drawCount;
   GLuint VAO;
   std::vector<Data3DDescription> bufferDescription;

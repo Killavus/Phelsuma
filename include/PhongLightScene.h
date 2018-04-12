@@ -10,7 +10,7 @@
 
 class PhongLightScene {
 public:
-  PhongLightScene(): programReady(false), phongProgram(ShaderProgram("Phong Lighting not compiled yet")) {}
+  PhongLightScene(): phongProgram(ShaderProgram("Phong Lighting not compiled yet")), programReady(false) {}
 
   ShaderProgram& program() {
     if (!programReady) { preparePhongProgram(); }
