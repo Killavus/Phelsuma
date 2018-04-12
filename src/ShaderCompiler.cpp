@@ -36,7 +36,7 @@ Shader ShaderCompiler::compile() {
     char *infoLog = new char[infoLogLength + 1];
     glGetShaderInfoLog(shaderId, infoLogLength, NULL, infoLog);
     std::string errorMessage(infoLog);
-    delete infoLog;
+    delete[] infoLog;
 
     return Shader(errorMessage);
   }
