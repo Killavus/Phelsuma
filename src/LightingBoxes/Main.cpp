@@ -83,10 +83,10 @@ int main() {
     GL_UNSIGNED_BYTE
   );
 
-  Shader phongFragment = shaderFromFile("shaders/phong.fs", GL_FRAGMENT_SHADER);
-  Shader phongVertex = shaderFromFile("shaders/phong.vs", GL_VERTEX_SHADER);
-  Shader lightFragment = shaderFromFile("shaders/light.fs", GL_FRAGMENT_SHADER);
-  Shader lightVertex = shaderFromFile("shaders/light.vs", GL_VERTEX_SHADER);
+  Shader phongFragment = shaderFromFile("shaders/phong.fs.glsl", GL_FRAGMENT_SHADER);
+  Shader phongVertex = shaderFromFile("shaders/phong.vs.glsl", GL_VERTEX_SHADER);
+  Shader lightFragment = shaderFromFile("shaders/light.fs.glsl", GL_FRAGMENT_SHADER);
+  Shader lightVertex = shaderFromFile("shaders/light.vs.glsl", GL_VERTEX_SHADER);
 
   std::vector<Shader> phongShaders{ phongFragment, phongVertex };
   std::vector<Shader> lightShaders{ lightFragment, lightVertex };

@@ -92,8 +92,8 @@ int main() {
 
   Data3D boxData3D(boxVertices, sizeof(boxVertices), boxData3DDesc);
 
-  Shader boxFragment = shaderFromFile("shaders/box.fs", GL_FRAGMENT_SHADER);
-  Shader boxVertex = shaderFromFile("shaders/box.vs", GL_VERTEX_SHADER);
+  Shader boxFragment = shaderFromFile("shaders/box.fs.glsl", GL_FRAGMENT_SHADER);
+  Shader boxVertex = shaderFromFile("shaders/box.vs.glsl", GL_VERTEX_SHADER);
   std::vector<Shader> boxShaders{ boxFragment, boxVertex };
   ShaderProgram boxProgram = makeProgram(boxShaders.begin(), boxShaders.end());
 
@@ -121,10 +121,10 @@ int main() {
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+
     for (WorldObject3D &object : objects) {
       object.draw();
-    }    
+    }
 
     glfwSwapBuffers(window);
     glfwPollEvents();

@@ -15,8 +15,8 @@
 int main(int argc, char *argv[]) {
   GLFWwindow *window = start("ColoredTexturedTriangle");
 
-  Shader vertex = shaderFromFile("shaders/simple.vs", GL_VERTEX_SHADER),
-         fragment = shaderFromFile("shaders/simple.fs", GL_FRAGMENT_SHADER);
+  Shader vertex = shaderFromFile("shaders/simple.vs.glsl", GL_VERTEX_SHADER),
+         fragment = shaderFromFile("shaders/simple.fs.glsl", GL_FRAGMENT_SHADER);
 
   ShaderProgramLinker linker;
   linker.attachShader(vertex);
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
     program.uniformMat44f("transform", mat);
     program.use();
 
-    glBindVertexArray(VAO);    
+    glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glfwSwapBuffers(window);
     glfwPollEvents();

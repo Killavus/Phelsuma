@@ -5,8 +5,8 @@
 #include <glad/glad.h>
 #include <iostream>
 
-std::string PhongLightScene::phongFragmentTemplatePath = "shaders/phongScene.fstpl";
-std::string PhongLightScene::phongVertexTemplatePath = "shaders/phongScene.vstpl";
+std::string PhongLightScene::phongFragmentTemplatePath = "shaders/phongScene.fstpl.glsl";
+std::string PhongLightScene::phongVertexTemplatePath = "shaders/phongScene.vstpl.glsl";
 
 void PhongLightScene::addDirectionalLight(PhongDirectionalLight& newLight) { directionalLights.push_back(newLight); programReady = false; }
 void PhongLightScene::addPointLight(PhongPointLight& newLight) { pointLights.push_back(newLight); programReady = false; }

@@ -76,7 +76,7 @@ int main() {
   GLsizei width, height, nrChannels;
   unsigned char *boxImage = stbi_load("textures/box.jpg", &width, &height, &nrChannels, 0);
 
-  std::vector<Data3DDescription> boxData3DDesc { 
+  std::vector<Data3DDescription> boxData3DDesc {
     Data3DDescription("vertexPos", 3, 0, 8 * sizeof(GLfloat)),
     Data3DDescription("texturePos", 2, 3 * sizeof(GLfloat), 8 * sizeof(GLfloat)),
     Data3DDescription("normal", 3, 5 * sizeof(GLfloat), 8 * sizeof(GLfloat))
@@ -103,7 +103,7 @@ int main() {
   ));
 
   PhongPointLight ptLight(
-    Vector4(0.0, 0.0, 2.5, 1.0), 
+    Vector4(0.0, 0.0, 2.5, 1.0),
     Vector3(1.0, 0.09, 0.032),
     PhongLightParameters(
       Vector4(0.1, 0.1, 0.1, 1.0),
@@ -123,9 +123,9 @@ int main() {
       Vector4(1.0, 0.0, 0.0, 1.0)
     )
   );
-  
-  Shader lightFragment = shaderFromFile("shaders/light.fs", GL_FRAGMENT_SHADER);
-  Shader lightVertex = shaderFromFile("shaders/light.vs", GL_VERTEX_SHADER);
+
+  Shader lightFragment = shaderFromFile("shaders/light.fs.glsl", GL_FRAGMENT_SHADER);
+  Shader lightVertex = shaderFromFile("shaders/light.vs.glsl", GL_VERTEX_SHADER);
   std::vector<Shader> lightShaders{ lightFragment, lightVertex };
   ShaderProgram lightProgram = makeProgram(lightShaders.begin(), lightShaders.end());
   BasicModel3D lightModel(boxData3D, DrawingPipeline{ lightProgram }, TextureSet{});
@@ -149,7 +149,7 @@ int main() {
     double time = glfwGetTime();
     frameCount++;
 
-    if (((int)time - (int)lastTime) >= 1.0) {      
+    if (((int)time - (int)lastTime) >= 1.0) {
       glfwSetWindowTitle(window, (std::string("LightingBoxesPhongScene FPS: ") + std::to_string(frameCount)).c_str());
       frameCount = 0;
     }

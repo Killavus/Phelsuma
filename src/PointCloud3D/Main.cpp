@@ -35,9 +35,9 @@ std::vector<float> generatePoints(unsigned int pointsCount = 1000) {
 
 int main(int argc, char *argv[]) {
   GLFWwindow *window = start("PointCloud3D");
-  
-  Shader vertexShader = shaderFromFile("shaders/point3d.vs", GL_VERTEX_SHADER);
-  Shader fragmentShader = shaderFromFile("shaders/point3d.fs", GL_FRAGMENT_SHADER);
+
+  Shader vertexShader = shaderFromFile("shaders/point3d.vs.glsl", GL_VERTEX_SHADER);
+  Shader fragmentShader = shaderFromFile("shaders/point3d.fs.glsl", GL_FRAGMENT_SHADER);
   std::vector<Shader> shaders = { vertexShader, fragmentShader };
 
   ShaderProgram program = makeProgram(shaders.begin(), shaders.end());
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
   glGenVertexArrays(1, &PointsVAO);
   glBindVertexArray(PointsVAO);
   glBindBuffer(GL_ARRAY_BUFFER, PointsVBO);
-  glBufferData(GL_ARRAY_BUFFER, 
+  glBufferData(GL_ARRAY_BUFFER,
     points.size() * sizeof(float),
     points.data(),
     GL_STATIC_DRAW
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 
   glPointSize(5.0f);
   Matrix4 camera = Matrix4::identity();
-  Matrix4 projection = Matrix4::frustum(25.0, -50.0, -32.0, 32.0, 0.1, 100.0); 
+  Matrix4 projection = Matrix4::frustum(25.0, -50.0, -32.0, 32.0, 0.1, 100.0);
 
   program.use();
   program.uniformMat44f("camera", camera);
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
   while (!glfwWindowShouldClose(window)) {
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+
     glBindVertexArray(PointsVAO);
     glDrawArrays(GL_POINTS, 0, 1000);
     glfwSwapBuffers(window);
