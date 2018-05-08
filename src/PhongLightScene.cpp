@@ -5,6 +5,10 @@
 #include <glad/glad.h>
 #include <iostream>
 
+const PHONG_MAXIMUM_DIRECTIONAL_LIGHTS = 5;
+const PHONG_MAXIMUM_POINT_LIGHTS = 100;
+const PHONG_MAXIMUM_SPOTLIGHTS = 100;
+
 std::string PhongLightScene::phongFragmentTemplatePath = "shaders/phongScene.fstpl.glsl";
 std::string PhongLightScene::phongVertexTemplatePath = "shaders/phongScene.vstpl.glsl";
 
@@ -77,6 +81,10 @@ void PhongLightScene::bindUniforms() {
     phongProgram.uniformFloat(name + ".cutoffFar", light.cutoffFar);
     bindLightParameters(name, light.parameters);
   }
+}
+
+void PhongLightScene::bindUBO() {
+
 }
 
 void PhongLightScene::bindLightParameters(const std::string& name, const PhongLightParameters& parameters) {

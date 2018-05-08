@@ -7,6 +7,9 @@
 using namespace Vectormath::Aos;
 
 struct PhongDirectionalLight {
+  /* 16
+     48 parameters
+   */
   PhongDirectionalLight(Vector4 direction, PhongLightParameters parameters) : direction(direction), parameters(parameters) {};
   Vector4 direction;
   PhongLightParameters parameters;

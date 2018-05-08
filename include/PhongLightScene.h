@@ -34,6 +34,8 @@ private:
   void bindUniforms();
   void bindLightParameters(const std::string& name, const PhongLightParameters& parameters);
 
+  void bindUBO();
+
   ShaderProgram phongProgram;
   bool programReady;
 };

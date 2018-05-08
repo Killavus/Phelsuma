@@ -7,6 +7,14 @@
 using namespace Vectormath::Aos;
 
 struct PhongSpotlight {
+  /* 4 (pad 12)
+     4 (pad 12)
+     16
+     16
+     12 (pad 4)
+     48
+  */
+
   PhongSpotlight(
     Vector4 position,
     Vector4 direction,

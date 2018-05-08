@@ -5,6 +5,13 @@
 
 using namespace Vectormath::Aos;
 
+/*
+  4 * 4 = 16
+  4 * 4 = 16
+  4 * 4 = 16
+  total = 48
+*/
+
 struct PhongLightParameters {
   PhongLightParameters(
     Vector4 ambientColor,
